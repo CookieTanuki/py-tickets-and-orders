@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db.models import UniqueConstraint
 import settings
 
+
 class Genre(models.Model):
     name = models.CharField(max_length=255, unique=True)
 
