@@ -7,7 +7,7 @@ def create_user(
         email: str = None,
         first_name: str = None,
         last_name: str = None
-)-> models.AbstractUser:
+) -> models.AbstractUser:
     user = get_user_model().objects.create_user(
         username=username,
         password=password,
@@ -19,7 +19,7 @@ def create_user(
     return user
 
 
-def get_user(user_id: int)-> models.AbstractUser:
+def get_user(user_id: int) -> models.AbstractUser:
     return get_user_model().objects.get(id=user_id)
 
 
@@ -30,7 +30,7 @@ def update_user(
         email: str = None,
         first_name: str = None,
         last_name: str = None
-)-> models.AbstractUser:
+) -> models.AbstractUser:
 
     user = get_user(user_id)
 
