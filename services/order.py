@@ -2,6 +2,7 @@ from datetime import datetime
 from django.db import transaction
 from django.contrib.auth import get_user_model
 from django.db.models import QuerySet
+from django.utils import timezone
 
 from db.models import Order, Ticket, MovieSession
 
@@ -16,9 +17,11 @@ def create_order(
 
     if date:
         created_at = datetime.strptime(date, "%Y-%m-%d %H:%M")
-        order = Order.objects.create(user=user, created_at=created_at)
+        order = Order.objects.create(user=user)
+        order.created_at = created_at
+        order.save(update_fields=["created_at"])
     else:
-        order = Order.objects.create(user=user, created_at=datetime.now())
+        order = Order.objects.create(user=user)
 
     for ticket in tickets:
         movie_session = MovieSession.objects.get(id=ticket["movie_session"])

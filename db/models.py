@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db.models import UniqueConstraint
-import settings
+from django.conf import settings
 
 
 class Genre(models.Model):
@@ -62,7 +62,7 @@ class MovieSession(models.Model):
 
 
 class Order(models.Model):
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -100,14 +100,14 @@ class Ticket(models.Model):
 
         if self.seat <= 0 or self.seat > max_seats:
             raise ValidationError({
-                "seat": f"seat number must be in available range:"
-                        f" (1, seats_in_row): (1, {max_seats})"
+                "seat": [f"seat number must be in available range:"
+                        f" (1, seats_in_row): (1, {max_seats})"]
             })
 
         if self.row <= 0 or self.row > max_rows:
             raise ValidationError({
-                "row": f"row number must be in available range:"
-                       f" (1, rows): (1, {max_rows})"
+                "row": [f"row number must be in available range:"
+                       f" (1, rows): (1, {max_rows})"]
             })
 
     def save(self, *args, **kwargs) -> None:
